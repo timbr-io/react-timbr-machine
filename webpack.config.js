@@ -16,9 +16,8 @@ module.exports = [
       output: {
           filename: 'index.js',
           path: './',
-          libraryTarget: 'amd'
+          libraryTarget: 'umd'
       },
-      externals: [{ 'react': 'React' } ],
       module : {
         loaders : [
           {
