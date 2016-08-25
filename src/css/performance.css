@@ -1,0 +1,80 @@
+.label {
+  composes: label from './shared.css';
+}
+
+.performance {
+  float: left;
+  width: 35%;
+  padding-right: 12px;
+}
+
+.performanceHigh, .performanceLow {
+  font-size: 11.7px;
+  color: #cccccc;
+  line-height: 1;
+  text-align: right;
+}
+
+.performanceLow {
+  margin-top: 9px;
+}
+
+.btn { padding: 1px 28px; border: none; }
+
+.sparkline {
+  width: 100%;
+  height: 32px;
+}
+
+.sparkline svg {
+  width: 100%;
+}
+
+.table {
+  display: table;
+  width: 100%;
+}
+
+.cell {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.cell .cellTight {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.cell .cellPadded {
+  padding: 0 3px;
+}
+
+.cell .cellMiddle {
+  vertical-align: middle;
+}
+
+.padded {
+  composes: cell;
+  composes: cellPadded;
+}
+
+.middle {
+  composes: cell;
+  composes: cellMiddle;
+}
+
+.tight {
+  composes: cell;
+  composes: cellTight;
+}
+
+.tightMiddle {
+  composes: tight;
+  composes: cellMiddle;
+}
+
+.btn { padding: 1px 28px; border: none; }
+
+.movedown {
+  composes: movedown from './shared.css';
+}

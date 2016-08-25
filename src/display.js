@@ -1,11 +1,10 @@
 import React from 'react';
+import css from './css/display.css';
+
 import Performance from './performance';
 import Progress from './progress';
 import dispatcher from './dispatcher';
-
-import Classnames from 'classnames';
 import autobind from 'autobind-decorator';
-
 
 @autobind
 class DisplayStatus extends React.Component {
@@ -95,18 +94,15 @@ class DisplayStatus extends React.Component {
   render() {
     const { status = {} } = this.state;
     const running = status.running ? 'Running' : 'Stopped';
-    const statusClasses = Classnames(
-      'machinestat-status', {
-        'machinestat-status-running': status.running
-      }
-    );
+    
+    const statusClass = status.running ? css.running : css.status; 
 
     return ( 
       <div>
-        <div className="machinestat">
+        <div className={ css.machinestat }>
           <h5>Timbr Machine Status</h5>
-          <div className={ statusClasses }>{ running }</div>
-          <div className="machinestat-row">
+          <div className={ statusClass }>{ running }</div>
+          <div className={ css.statRow }>
             <Performance { ...this.state } toggle={ this.toggle } />
             <Progress { ...this.state } />
           </div>
