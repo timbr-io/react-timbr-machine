@@ -4,10 +4,7 @@ import css from './css/display.css';
 import Performance from './performance';
 import Progress from './progress';
 import dispatcher from './dispatcher';
-
-import Classnames from 'classnames';
 import autobind from 'autobind-decorator';
-
 
 @autobind
 class DisplayStatus extends React.Component {
@@ -99,10 +96,6 @@ class DisplayStatus extends React.Component {
     const running = status.running ? 'Running' : 'Stopped';
     
     const statusClass = status.running ? css.running : css.status; 
-    //  'machinestat-status', {
-    //    'machinestat-status-running': status.running
-    //  }
-    //);
 
     return ( 
       <div>
