@@ -1,4 +1,5 @@
 import React from 'react';
+import css from './css/progress.css';
 
 function sum( vals ) {
   return vals.reduce( function( a, b ) {
@@ -23,25 +24,25 @@ function Progress( props ) {
   }
 
   return (
-    <div className="machinestat-metastats">
-      <div className="machinestat-progress">
-        <div className="machinestat-progress-key machinestat-label">
+    <div className={ css.root }>
+      <div className={ css.progress }>
+        <div className={ css.key }>
           <ul>
-            <li className="key-queued">Queued</li>
-            <li className="key-processed">Processed</li>
-            <li className="key-average">Average</li>
+            <li className={ css.keyQueued }>Queued</li>
+            <li className={ css.keyProcessed }>Processed</li>
+            <li className={ css.keyAverage }>Average</li>
           </ul>
         </div>
-        <div className="machinestat-progress-graph">
-          <div className="machinestat-progress-processed" style={{ width: `${processedPercent}%` }}></div>
-          <div className="machinestat-progress-average" style={{ left: `${errAvg}%` }}></div>
-          <div className="machinestat-progress-label-processed">{ status.processed }</div>
-          <div className="machinestat-progress-label-queued">{ status.queue_size }</div>
+        <div className={ css.graph }>
+          <div className={ css.processed } style={{ width: `${processedPercent}%` }}></div>
+          <div className={ css.average } style={{ left: `${errAvg}%` }}></div>
+          <div className={ css.labelProcessed }>{ status.processed }</div>
+          <div className={ css.labelQueued }>{ status.queue_size }</div>
         </div>
-        <div className="machinestat-movedown">
-          { status.errored > 0 && errPercent ? <span>Errored: { status.errored } <span className="machinestat-meta">({ errPercent }%)</span></span> : ''}
+        <div className={ css.movedown }>
+          { status.errored > 0 && errPercent ? <span>Errored: { status.errored } <span className={ css.meta }>({ errPercent }%)</span></span> : ''}
           &nbsp;
-          { status.processed && timeLeft ? <span className="machinestat-indent">Est. Completion: { timeLeft } seconds</span> : ''}
+          { status.processed && timeLeft ? <span className={ css.indent }>Est. Completion: { timeLeft } seconds</span> : ''}
         </div>
       </div>
     </div>

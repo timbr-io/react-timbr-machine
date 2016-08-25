@@ -1,0 +1,101 @@
+.root {
+  float: left;
+  width: 65%;
+  padding-left: 12px;
+  text-align: right;
+}
+
+.progress {
+  position: relative;
+}
+
+.key {
+  composes: label from './shared.css';
+  display: block;
+  zoom: 1;
+}
+
+.key::before, .key::after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.key::after {
+  clear: both;
+}
+
+.key ul {
+  display: block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  float: right;
+}
+
+.key li {
+  float: left;
+  margin-left: 12px;
+}
+
+.key li[class*="key"]::before {
+  content: '';
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin-right: 4px;
+  vertical-align: -1px;
+}
+
+li .keyQueued::before { background: #e7e7e7; }
+li .keyProcessed::before { background: #98c000; }
+li .keyAverage::before { background: #fbc000; }
+
+
+.graph {
+  position: relative;
+  width: 100%;
+  height: 32px;
+  background: #e7e7e7;
+}
+
+.graph .processed {
+  height: 32px;
+  width: 0;
+  background: #98c000;
+}
+
+.average {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 2px;
+  background: #fbc000;
+}
+
+.labelQueued, .labelProcessed {
+  opacity: 0.5;
+  font-size: 11.7px;
+  line-height: 1;
+}
+
+.labelProcessed {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+}
+
+.labelQueued {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+}
+
+.indent { margin-left: 12px; }
+
+.meta { font-size: 11.7px; font-style: italic; color: #cccccc; }
+
+.movedown {
+  composes: movedown from './shared.css'
+}
