@@ -6,8 +6,8 @@ function Performance( props ) {
 
   const { toggle, sparkAverages, status } = props;
 
-  const sparkMax = Math.ceil( Math.max.apply(null, sparkAverages) ) || 0;
-  const sparkMin = Math.round( Math.min.apply(null, sparkAverages) ) || 0;
+  const sparkMax = sparkAverages.length > 1 ? Math.ceil( Math.max.apply(null, sparkAverages) ) : '';
+  const sparkMin = sparkAverages.length > 1 ? Math.round( Math.min.apply(null, sparkAverages) ) : '';
   const sparkAvg = Math.round( sparkAverages[ sparkAverages.length - 1 ] * 10 ) / 10 || 0; 
 
   const action = status.running ? 'Stop' : 'Start';

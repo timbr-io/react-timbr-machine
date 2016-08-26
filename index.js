@@ -112,11 +112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-	var _classnames = __webpack_require__(51);
-
-	var _classnames2 = _interopRequireDefault(_classnames);
-
-	var _autobindDecorator = __webpack_require__(52);
+	var _autobindDecorator = __webpack_require__(51);
 
 	var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
 
@@ -237,10 +233,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var running = status.running ? 'Running' : 'Stopped';
 
 	      var statusClass = status.running ? _display2.default.running : _display2.default.status;
-	      //  'machinestat-status', {
-	      //    'machinestat-status-running': status.running
-	      //  }
-	      //);
 
 	      return _react2.default.createElement(
 	        'div',
@@ -4828,8 +4820,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var status = props.status;
 
 
-	  var sparkMax = Math.ceil(Math.max.apply(null, sparkAverages)) || 0;
-	  var sparkMin = Math.round(Math.min.apply(null, sparkAverages)) || 0;
+	  var sparkMax = sparkAverages.length > 1 ? Math.ceil(Math.max.apply(null, sparkAverages)) : '';
+	  var sparkMin = sparkAverages.length > 1 ? Math.round(Math.min.apply(null, sparkAverages)) : '';
 	  var sparkAvg = Math.round(sparkAverages[sparkAverages.length - 1] * 10) / 10 || 0;
 
 	  var action = status.running ? 'Stop' : 'Start';
@@ -6551,60 +6543,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 51 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2016 Jed Watson.
-	  Licensed under the MIT License (MIT), see
-	  http://jedwatson.github.io/classnames
-	*/
-	/* global define */
-
-	(function () {
-		'use strict';
-
-		var hasOwn = {}.hasOwnProperty;
-
-		function classNames () {
-			var classes = [];
-
-			for (var i = 0; i < arguments.length; i++) {
-				var arg = arguments[i];
-				if (!arg) continue;
-
-				var argType = typeof arg;
-
-				if (argType === 'string' || argType === 'number') {
-					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
-				} else if (argType === 'object') {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				}
-			}
-
-			return classes.join(' ');
-		}
-
-		if (typeof module !== 'undefined' && module.exports) {
-			module.exports = classNames;
-		} else if (true) {
-			// register as 'classnames', consistent with npm package name
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-				return classNames;
-			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else {
-			window.classNames = classNames;
-		}
-	}());
-
-
-/***/ },
-/* 52 */
 /***/ function(module, exports) {
 
 	/**
