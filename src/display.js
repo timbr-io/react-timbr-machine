@@ -54,7 +54,7 @@ function sum( vals ) {
   return vals.reduce( ( a, b ) => a + b );
 }
 
-@connect( 'update_display', initialState, onStateUpdated )
+@connect( 'display_update', initialState, onStateUpdated )
 class DisplayStatus extends React.Component {
 
   @autobind
