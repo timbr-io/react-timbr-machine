@@ -21,7 +21,6 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
       constructor( props ) {
         /* eslint-disable no-unused-vars */
         super( props );
-        console.log(props);
         this.state = processState( { ...initialState, ...props } );
       }
 
@@ -54,8 +53,8 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
       render() {
         return (
           <Component
-            state       = { this.state }
-            send        = { this.send }
+            state = { this.state }
+            send  = { this.send }
           />
         );
       }

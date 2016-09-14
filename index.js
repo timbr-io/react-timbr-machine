@@ -6402,7 +6402,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /* eslint-disable no-unused-vars */
 
 
-	        console.log(props);
 	        _this.state = processState(_extends({}, initialState, props));
 	        return _this;
 	      }
@@ -6413,9 +6412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var _this2 = this;
 
 	          _dispatcher2.default.register(function (payload) {
-	            console.log('payload', payload);
 	            if (_this2.props && _this2.props.comm && _this2.props.comm.comm_id === payload.commId && payload.actionType === action) {
-	              console.log('updating');
 	              _this2.updateState(payload.data);
 	            }
 	          });
@@ -6867,7 +6864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'render',
 	    value: function render() {
 	      console.log('foo', this.props);
-	      return _react2.default.createElement('div', null);
+	      return _react2.default.createElement('div', { id: 'timbr-foo' });
 	    }
 	  }]);
 
