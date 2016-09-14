@@ -6331,8 +6331,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -6368,12 +6366,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	function connect(action) {
 	  var initialState = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	  var onStateUpdated = arguments.length <= 2 || arguments[2] === undefined ? function (state) {
 	    return state;
 	  } : arguments[2];
 
+
+	  function processState(state) {
+	    /* eslint-disable no-unused-vars */
+	    // treat state as the place to hold changing state for the module. then
+	    // comm and cell can be accessed separately, and preferably from inside
+	    // this module only.
+	    var comm = state.comm;
+	    var cell = state.cell;
+	    var module = state.module;
+
+	    var rest = _objectWithoutProperties(state, ['comm', 'cell', 'module']);
+
+	    return onStateUpdated(rest);
+	  }
 
 	  return function (Component) {
 	    var _desc, _value, _class;
@@ -6388,7 +6402,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /* eslint-disable no-unused-vars */
 
 
-	        _this.state = _this.processState(_extends({}, initialState, props));
+	        console.log(props);
+	        _this.state = processState(_extends({}, initialState, props));
 	        return _this;
 	      }
 
@@ -6411,24 +6426,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.updateState(newProps);
 	        }
 	      }, {
-	        key: 'processState',
-	        value: function processState(state) {
-	          /* eslint-disable no-unused-vars */
-	          // treat state as the place to hold changing state for the module. then
-	          // comm and cell can be accessed separately, and preferably from inside
-	          // this module only.
-	          var comm = state.comm;
-	          var cell = state.cell;
-	          var module = state.module;
-
-	          var rest = _objectWithoutProperties(state, ['comm', 'cell', 'module']);
-
-	          return onStateUpdated(rest);
-	        }
-	      }, {
 	        key: 'updateState',
 	        value: function updateState(state) {
-	          this.setState(this.processState(state));
+	          this.setState(processState(state));
 	        }
 	      }, {
 	        key: 'send',

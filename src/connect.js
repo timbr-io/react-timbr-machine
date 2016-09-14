@@ -5,6 +5,15 @@ import dispatcher from './dispatcher';
 
 export default function connect( action, initialState = {}, onStateUpdated = state => state ) {
 
+  function processState( state ) {
+    /* eslint-disable no-unused-vars */
+    // treat state as the place to hold changing state for the module. then
+    // comm and cell can be accessed separately, and preferably from inside
+    // this module only.
+    const { comm, cell, module, ...rest } = state;
+    return onStateUpdated( rest );
+  }
+
   return Component => (
 
     class Connect extends React.Component {
@@ -12,14 +21,13 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
       constructor( props ) {
         /* eslint-disable no-unused-vars */
         super( props );
-        this.state = this.processState( { ...initialState, ...props } );
+        console.log(props);
+        this.state = processState( { ...initialState, ...props } );
       }
 
       componentWillMount() {
         dispatcher.register( payload => {
-          console.log('payload', payload)
           if ( this.props && this.props.comm && this.props.comm.comm_id === payload.commId && payload.actionType === action ) {
-            console.log('updating')
             this.updateState( payload.data );
           }
         });
@@ -29,18 +37,9 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
         this.updateState( newProps );
       }
 
-      processState( state ) {
-        /* eslint-disable no-unused-vars */
-        // treat state as the place to hold changing state for the module. then
-        // comm and cell can be accessed separately, and preferably from inside
-        // this module only.
-        const { comm, cell, module, ...rest } = state;
-        return onStateUpdated( rest );
-      }
-
       @autobind
       updateState( state ) {
-        this.setState( this.processState( state ) );
+        this.setState( processState( state ) );
       }
 
       @autobind

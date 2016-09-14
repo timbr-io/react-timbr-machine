@@ -5,6 +5,6 @@ import connect from '../connect';
 export default class Dashboard extends React.Component {
   render() {
     console.log('foo', this.props)
-    return <div/>;
+    return <div id="timbr-foo"/>;
   }
 }
