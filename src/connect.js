@@ -5,7 +5,7 @@ import dispatcher from './dispatcher';
 
 export default function connect( action, initialState = {}, onStateUpdated = state => state ) {
 
-  return Component => (
+  return Component =>
 
     class Connect extends React.Component {
 
@@ -27,6 +27,11 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
       }
 
       @autobind
+      updateState( state ) {
+        this.setState( onStateUpdated( state ) );
+      }
+
+      @autobind
       send( data ) {
         this.props.comm.send( data, () =>
           this.props.cell
@@ -44,5 +49,3 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
         );
       }
     }
-    
-  );
