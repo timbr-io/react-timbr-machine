@@ -6388,13 +6388,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /* eslint-disable no-unused-vars */
 
 
-	        var comm = props.comm;
-	        var cell = props.cell;
-	        var module = props.module;
-
-	        var rest = _objectWithoutProperties(props, ['comm', 'cell', 'module']);
-
-	        _this.state = onStateUpdated(_extends({}, initialState, rest));
+	        _this.state = _this.processState(_extends({}, initialState, props));
 	        return _this;
 	      }
 
@@ -6417,9 +6411,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.updateState(newProps);
 	        }
 	      }, {
+	        key: 'processState',
+	        value: function processState(state) {
+	          /* eslint-disable no-unused-vars */
+	          // treat state as the place to hold changing state for the module. then
+	          // comm and cell can be accessed separately, and preferably from inside
+	          // this module only.
+	          var comm = state.comm;
+	          var cell = state.cell;
+	          var module = state.module;
+
+	          var rest = _objectWithoutProperties(state, ['comm', 'cell', 'module']);
+
+	          return onStateUpdated(rest);
+	        }
+	      }, {
 	        key: 'updateState',
 	        value: function updateState(state) {
-	          this.setState(onStateUpdated(state));
+	          this.setState(this.processState(state));
 	        }
 	      }, {
 	        key: 'send',
