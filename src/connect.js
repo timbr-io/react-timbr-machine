@@ -10,13 +10,17 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
     class Connect extends React.Component {
 
       constructor( props ) {
+        /* eslint-disable no-unused-vars */
         super( props );
-        this.state = onStateUpdated( initialState );
+        const { comm, cell, module, ...rest } = props;
+        this.state = onStateUpdated( { ...initialState, ...rest } );
       }
 
       componentWillMount() {
         dispatcher.register( payload => {
+          console.log('payload', payload)
           if ( this.props && this.props.comm && this.props.comm.comm_id === payload.commId && payload.actionType === action ) {
+            console.log('updating')
             this.updateState( payload.data );
           }
         });
