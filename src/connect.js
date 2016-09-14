@@ -11,7 +11,7 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
 
       constructor( props ) {
         super( props );
-        this.state = onStateUpdated( initialState );
+        this.state = this.processState( { ...initialState, ...props } );
       }
 
       componentWillMount() {
@@ -26,9 +26,18 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
         this.updateState( newProps );
       }
 
+      processState( state ) {
+        /* eslint-disable no-unused-vars */
+        // treat state as the place to hold changing state for the module. then
+        // comm and cell can be accessed separately, and preferably from inside
+        // this module only.
+        const { comm, cell, module, ...rest } = state;
+        return onStateUpdated( rest );
+      }
+
       @autobind
       updateState( state ) {
-        this.setState( onStateUpdated( state ) );
+        this.setState( this.processState( state ) );
       }
 
       @autobind
