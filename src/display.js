@@ -4,7 +4,6 @@ import autobind from 'autobind-decorator';
 import Performance from './performance';
 import Progress from './progress';
 import connect from './connect';
-import dispatcher from './dispatcher';
 import css from './css/display.css';
 
 const initialState = {
@@ -15,8 +14,8 @@ const initialState = {
   lastVal: null
 };
 
-function onStateUpdated( state ) {
-  const state =  { ...state };
+function onStateUpdated( nextState ) {
+  const state =  { ...nextState };
   const { status = {} } = state;
   state.status = status;
 
@@ -38,7 +37,7 @@ function onStateUpdated( state ) {
 
       if ( state.sparkVals.length > 1 ) {
         const windowSeconds = 10;
-        const windowVals = state.sparkVals.slice(Math.max( state.sparkVals.length - windowSeconds, 1))
+        const windowVals = state.sparkVals.slice(Math.max( state.sparkVals.length - windowSeconds, 1));
         state.sparkAverages.push( sum( windowVals ) / windowVals.length );
 
         if ( state.sparkAverages.length > 30 ) {

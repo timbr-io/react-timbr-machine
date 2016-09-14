@@ -5,7 +5,7 @@ import dispatcher from './dispatcher';
 
 export default function connect( action, initialState = {}, onStateUpdated = state => state ) {
 
-  return Component =>
+  return Component => (
 
     class Connect extends React.Component {
 
@@ -49,3 +49,5 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
         );
       }
     }
+  );
+}

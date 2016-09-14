@@ -1,5 +1,5 @@
 import React from 'react';
-import css from './css/performance.css'
+import css from './css/performance.css';
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
 
 function Performance( { state } ) {
@@ -36,6 +36,6 @@ function Performance( { state } ) {
       </div>
     </div>
   );
-};
+}
 
 export default Performance;

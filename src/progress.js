@@ -45,6 +45,6 @@ function Progress( { state } ) {
       </div>
     </div>
   );
-};
+}
 
 export default Progress;
