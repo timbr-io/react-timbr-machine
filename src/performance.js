@@ -2,13 +2,13 @@ import React from 'react';
 import css from './css/performance.css'
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
 
-function Performance( props ) {
+function Performance( { state } ) {
 
-  const { toggle, sparkAverages, status } = props;
+  const { toggle, sparkAverages, status } = state;
 
   const sparkMax = sparkAverages.length > 1 ? Math.ceil( Math.max.apply(null, sparkAverages) ) : '';
   const sparkMin = sparkAverages.length > 1 ? Math.round( Math.min.apply(null, sparkAverages) ) : '';
-  const sparkAvg = Math.round( sparkAverages[ sparkAverages.length - 1 ] * 10 ) / 10 || 0; 
+  const sparkAvg = Math.round( sparkAverages[ sparkAverages.length - 1 ] * 10 ) / 10 || 0;
 
   const action = status.running ? 'Stop' : 'Start';
 

@@ -2,20 +2,18 @@ import React from 'react';
 import css from './css/progress.css';
 
 function sum( vals ) {
-  return vals.reduce( function( a, b ) {
-    return a + b;
-  });
+  return vals.reduce( ( a, b ) => a + b );
 }
 
-function Progress( props ) {
+function Progress( { state } ) {
 
-  const { status, processedPercent, processedVals, sparkAverages } = props;
+  const { status, processedPercent, processedVals, sparkAverages } = state;
 
   let errAvg = 0;
   let errPercent;
   let timeLeft;
 
-  if ( typeof status.processed !== 'undefined' ) { 
+  if ( typeof status.processed !== 'undefined' ) {
     errAvg = sum( processedVals ) / processedVals.length;
     errPercent = ( Math.round(( status.errored / status.processed ) * 10 ) / 10 ) * 100 || null;
     if ( sparkAverages.length > 1 ) {
