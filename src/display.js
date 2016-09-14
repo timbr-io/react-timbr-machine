@@ -1,10 +1,11 @@
 import React from 'react';
-import css from './css/display.css';
+import autobind from 'autobind-decorator';
 
 import Performance from './performance';
 import Progress from './progress';
+import connect from './connect';
 import dispatcher from './dispatcher';
-import autobind from 'autobind-decorator';
+import css from './css/display.css';
 
 const initialState = {
   status: {},
