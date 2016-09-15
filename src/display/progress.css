@@ -10,7 +10,7 @@
 }
 
 .key {
-  composes: label from './shared.css';
+  composes: label from '../css/shared.css';
   display: block;
   zoom: 1;
 }
@@ -97,5 +97,5 @@ li .keyAverage::before { background: #fbc000; }
 .meta { font-size: 11.7px; font-style: italic; color: #cccccc; }
 
 .movedown {
-  composes: movedown from './shared.css'
+  composes: movedown from '../css/shared.css'
 }

@@ -29,8 +29,10 @@ module.exports = [{
       loader: 'url-loader?name=fonts/[name].build-[hash].[ext]&limit=10000'
     }]
   },
+  devtool: 'cheap-module-source-map',
   postcss: function() {
     return [
+      require( 'postcss-modules-values' ),
       require( 'postcss-nested' )
     ];
   }

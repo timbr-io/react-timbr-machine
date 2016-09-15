@@ -1,5 +1,5 @@
 import React from 'react';
-import css from './css/progress.css';
+import css from './progress.css';
 
 function sum( vals ) {
   return vals.reduce( ( a, b ) => a + b );

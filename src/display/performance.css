@@ -1,5 +1,5 @@
 .label {
-  composes: label from './shared.css';
+  composes: label from '../css/shared.css';
 }
 
 .performance {
@@ -76,5 +76,5 @@
 .btn { padding: 1px 28px; border: none; }
 
 .movedown {
-  composes: movedown from './shared.css';
+  composes: movedown from '../css/shared.css';
 }

@@ -1,0 +1,23 @@
+@value primary from './colors.css';
+
+.buttonRound {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin: 0 4px;
+  border: 1px solid;
+  vertical-align: middle;
+  cursor: pointer;
+  font-size: 14px;
+  height: 24px;
+  width: 24px;
+  padding: 3px 0 0;
+  text-align: center;
+  border-radius: 100%;
+}
+
+.buttonRoundPrimary {
+  composes: buttonRound;
+  color: primary;
+  border-color: primary;
+}

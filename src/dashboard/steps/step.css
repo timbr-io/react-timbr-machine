@@ -19,21 +19,7 @@
 
 .captureButton {
   composes: twolicon from '../../css/fonts.css';
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  color: #00a2de;
-  margin: 0 4px;
-  vertical-align: middle;
-  cursor: pointer;
-  font-size: 14px;
-  border: 1px solid #00a2de;
-  height: 24px;
-  width: 24px;
-  padding: 3px 0 0;
-  text-align: center;
-  border-radius: 100%;
-
+  composes: buttonRoundPrimary from '../../css/buttons.css';
   &::before {
     content: "\53";
   }

@@ -3,8 +3,8 @@ import autobind from 'autobind-decorator';
 
 import Performance from './performance';
 import Progress from './progress';
-import connect from './connect';
-import css from './css/display.css';
+import connect from '../connect';
+import css from './index.css';
 
 const initialState = {
   status: {},
@@ -88,3 +88,4 @@ class DisplayStatus extends React.Component {
 }
 
 export default DisplayStatus;
+

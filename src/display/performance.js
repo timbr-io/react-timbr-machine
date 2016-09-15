@@ -1,5 +1,5 @@
 import React from 'react';
-import css from './css/performance.css';
+import css from './performance.css';
 import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
 
 function Performance( { state } ) {
