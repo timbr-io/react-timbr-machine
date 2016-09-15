@@ -86,35 +86,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _class;
+	var _dec, _class, _desc, _value, _class2;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _display = __webpack_require__(35);
+	var _autobindDecorator = __webpack_require__(35);
 
-	var _display2 = _interopRequireDefault(_display);
+	var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
 
-	var _performance = __webpack_require__(39);
+	var _performance = __webpack_require__(36);
 
 	var _performance2 = _interopRequireDefault(_performance);
 
-	var _progress = __webpack_require__(44);
+	var _progress = __webpack_require__(43);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
-	var _dispatcher = __webpack_require__(47);
+	var _connect = __webpack_require__(46);
 
-	var _dispatcher2 = _interopRequireDefault(_dispatcher);
+	var _connect2 = _interopRequireDefault(_connect);
 
-	var _autobindDecorator = __webpack_require__(51);
+	var _display = __webpack_require__(51);
 
-	var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
+	var _display2 = _interopRequireDefault(_display);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -124,111 +124,111 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var DisplayStatus = (0, _autobindDecorator2.default)(_class = function (_React$Component) {
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
+
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
+
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
+
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+
+	  return desc;
+	}
+
+	var initialState = {
+	  status: {},
+	  sparkVals: [],
+	  sparkAverages: [],
+	  processedVals: null,
+	  lastVal: null
+	};
+
+	function onStateUpdated(nextState) {
+	  var state = _extends({}, nextState);
+	  var _state$status = state.status;
+	  var status = _state$status === undefined ? {} : _state$status;
+
+	  state.status = status;
+
+	  if (typeof status.processed !== 'undefined') {
+	    var totalQueued = status.processed + status.queue_size;
+	    state.processedPercent = status.processed / totalQueued * 100;
+
+	    if (!state.processedVals) {
+	      state.processedVals = Array(10).fill(state.processedPercent);
+	    } else {
+	      state.processedVals.push(state.processedPercent);
+	    }
+
+	    if (!state.lastVal) {
+	      state.lastVal = status.processed;
+	    } else {
+	      state.sparkVals.push(status.processed - state.lastVal);
+	      state.lastVal = status.processed;
+
+	      if (state.sparkVals.length > 1) {
+	        var windowSeconds = 10;
+	        var windowVals = state.sparkVals.slice(Math.max(state.sparkVals.length - windowSeconds, 1));
+	        state.sparkAverages.push(sum(windowVals) / windowVals.length);
+
+	        if (state.sparkAverages.length > 30) {
+	          state.sparkAverages.shift();
+	        }
+	      }
+	    }
+	  }
+	  return state;
+	}
+
+	function sum(vals) {
+	  return vals.reduce(function (a, b) {
+	    return a + b;
+	  });
+	}
+
+	var DisplayStatus = (_dec = (0, _connect2.default)('display_update', initialState, onStateUpdated), _dec(_class = (_class2 = function (_React$Component) {
 	  _inherits(DisplayStatus, _React$Component);
 
-	  function DisplayStatus(props) {
+	  function DisplayStatus() {
 	    _classCallCheck(this, DisplayStatus);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DisplayStatus).call(this, props));
-
-	    _this.state = {
-	      status: {},
-	      sparkVals: [],
-	      sparkAverages: [],
-	      processedVals: null,
-	      lastVal: null
-	    };
-	    _this.state = _this._update(props);
-	    return _this;
+	    return _possibleConstructorReturn(this, (DisplayStatus.__proto__ || Object.getPrototypeOf(DisplayStatus)).apply(this, arguments));
 	  }
 
 	  _createClass(DisplayStatus, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      var _this2 = this;
-
-	      _dispatcher2.default.register(function (payload) {
-	        if (_this2.props && _this2.props.comm && _this2.props.comm.comm_id === payload.commId && payload.actionType === 'display_update') {
-	          _this2.setState(_this2._update(payload.data));
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(newProps) {
-	      this.setState(this._update(newProps));
-	    }
-	  }, {
-	    key: '_update',
-	    value: function _update(props) {
-	      var state = _extends({}, this.state);
-	      var _props$status = props.status;
-	      var status = _props$status === undefined ? {} : _props$status;
-
-	      state.status = status;
-
-	      if (typeof status.processed !== 'undefined') {
-	        var totalQueued = status.processed + status.queue_size;
-	        state.processedPercent = status.processed / totalQueued * 100;
-
-	        if (!state.processedVals) {
-	          state.processedVals = Array(10).fill(state.processedPercent);
-	        } else {
-	          state.processedVals.push(state.processedPercent);
-	        }
-
-	        if (!state.lastVal) {
-	          state.lastVal = status.processed;
-	        } else {
-	          state.sparkVals.push(status.processed - state.lastVal);
-	          state.lastVal = status.processed;
-
-	          if (state.sparkVals.length > 1) {
-	            var windowSeconds = 10;
-	            var windowVals = state.sparkVals.slice(Math.max(state.sparkVals.length - windowSeconds, 1));
-	            state.sparkAverages.push(this.sum(windowVals) / windowVals.length);
-
-	            if (state.sparkAverages.length > 30) {
-	              state.sparkAverages.shift();
-	            }
-	          }
-	        }
-	      }
-	      return state;
-	    }
-	  }, {
-	    key: 'callbacks',
-	    value: function callbacks() {
-	      if (this.props.cell) {
-	        return this.props.cell.get_callbacks();
-	      }
-	      return {};
-	    }
-	  }, {
 	    key: 'toggle',
 	    value: function toggle() {
-	      var _state$status = this.state.status;
-	      var status = _state$status === undefined ? {} : _state$status;
+	      var _props$state$status = this.props.state.status;
+	      var status = _props$state$status === undefined ? {} : _props$state$status;
 
-	      this.props.comm.send({
+	      this.props.send({
 	        method: 'toggle',
-	        data: {
-	          action: status.running ? 'stop' : 'start' }
-	      }, this.callbacks());
-	    }
-	  }, {
-	    key: 'sum',
-	    value: function sum(vals) {
-	      return vals.reduce(function (a, b) {
-	        return a + b;
+	        data: { action: status.running ? 'stop' : 'start' }
 	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _state$status2 = this.state.status;
-	      var status = _state$status2 === undefined ? {} : _state$status2;
+	      var _props$state$status2 = this.props.state.status;
+	      var status = _props$state$status2 === undefined ? {} : _props$state$status2;
 
 	      var running = status.running ? 'Running' : 'Stopped';
 
@@ -253,8 +253,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          _react2.default.createElement(
 	            'div',
 	            { className: _display2.default.statRow },
-	            _react2.default.createElement(_performance2.default, _extends({}, this.state, { toggle: this.toggle })),
-	            _react2.default.createElement(_progress2.default, this.state)
+	            _react2.default.createElement(_performance2.default, _extends({}, this.props, { toggle: this.toggle })),
+	            _react2.default.createElement(_progress2.default, this.props)
 	          )
 	        )
 	      );
@@ -262,8 +262,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return DisplayStatus;
-	}(_react2.default.Component)) || _class;
-
+	}(_react2.default.Component), (_applyDecoratedDescriptor(_class2.prototype, 'toggle', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggle'), _class2.prototype)), _class2)) || _class);
 	exports.default = DisplayStatus;
 	module.exports = exports['default'];
 
@@ -386,25 +385,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	var cachedSetTimeout;
 	var cachedClearTimeout;
 
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
 	(function () {
 	    try {
-	        cachedSetTimeout = setTimeout;
-	    } catch (e) {
-	        cachedSetTimeout = function () {
-	            throw new Error('setTimeout is not defined');
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
 	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
 	    }
 	    try {
-	        cachedClearTimeout = clearTimeout;
-	    } catch (e) {
-	        cachedClearTimeout = function () {
-	            throw new Error('clearTimeout is not defined');
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
 	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
 	    }
 	} ())
 	function runTimeout(fun) {
 	    if (cachedSetTimeout === setTimeout) {
 	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
 	        return setTimeout(fun, 0);
 	    }
 	    try {
@@ -425,6 +439,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	function runClearTimeout(marker) {
 	    if (cachedClearTimeout === clearTimeout) {
 	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
 	        return clearTimeout(marker);
 	    }
 	    try {
@@ -4441,22 +4460,223 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 35 */
+/***/ function(module, exports) {
+
+	/**
+	 * @copyright 2015, Andrey Popp <8mayday@gmail.com>
+	 *
+	 * The decorator may be used on classes or methods
+	 * ```
+	 * @autobind
+	 * class FullBound {}
+	 *
+	 * class PartBound {
+	 *   @autobind
+	 *   method () {}
+	 * }
+	 * ```
+	 */
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = autobind;
+
+	function autobind() {
+	  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	    args[_key] = arguments[_key];
+	  }
+
+	  if (args.length === 1) {
+	    return boundClass.apply(undefined, args);
+	  } else {
+	    return boundMethod.apply(undefined, args);
+	  }
+	}
+
+	/**
+	 * Use boundMethod to bind all methods on the target.prototype
+	 */
+	function boundClass(target) {
+	  // (Using reflect to get all keys including symbols)
+	  var keys = undefined;
+	  // Use Reflect if exists
+	  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
+	    keys = Reflect.ownKeys(target.prototype);
+	  } else {
+	    keys = Object.getOwnPropertyNames(target.prototype);
+	    // use symbols if support is provided
+	    if (typeof Object.getOwnPropertySymbols === 'function') {
+	      keys = keys.concat(Object.getOwnPropertySymbols(target.prototype));
+	    }
+	  }
+
+	  keys.forEach(function (key) {
+	    // Ignore special case target method
+	    if (key === 'constructor') {
+	      return;
+	    }
+
+	    var descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
+
+	    // Only methods need binding
+	    if (typeof descriptor.value === 'function') {
+	      Object.defineProperty(target.prototype, key, boundMethod(target, key, descriptor));
+	    }
+	  });
+	  return target;
+	}
+
+	/**
+	 * Return a descriptor removing the value and returning a getter
+	 * The getter will return a .bind version of the function
+	 * and memoize the result against a symbol on the instance
+	 */
+	function boundMethod(target, key, descriptor) {
+	  var fn = descriptor.value;
+
+	  if (typeof fn !== 'function') {
+	    throw new Error('@autobind decorator can only be applied to methods not: ' + typeof fn);
+	  }
+
+	  return {
+	    configurable: true,
+	    get: function get() {
+	      if (this === target.prototype || this.hasOwnProperty(key)) {
+	        return fn;
+	      }
+
+	      var boundFn = fn.bind(this);
+	      Object.defineProperty(this, key, {
+	        value: boundFn,
+	        configurable: true,
+	        writable: true
+	      });
+	      return boundFn;
+	    }
+	  };
+	}
+	module.exports = exports['default'];
+
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _performance = __webpack_require__(37);
+
+	var _performance2 = _interopRequireDefault(_performance);
+
+	var _reactSparklines = __webpack_require__(42);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function Performance(_ref) {
+	  var state = _ref.state;
+	  var toggle = state.toggle;
+	  var sparkAverages = state.sparkAverages;
+	  var status = state.status;
+
+
+	  var sparkMax = sparkAverages.length > 1 ? Math.ceil(Math.max.apply(null, sparkAverages)) : '';
+	  var sparkMin = sparkAverages.length > 1 ? Math.round(Math.min.apply(null, sparkAverages)) : '';
+	  var sparkAvg = Math.round(sparkAverages[sparkAverages.length - 1] * 10) / 10 || 0;
+
+	  var action = status.running ? 'Stop' : 'Start';
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: _performance2.default.performance },
+	    _react2.default.createElement(
+	      'div',
+	      { className: _performance2.default.label },
+	      'Average per minute'
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: _performance2.default.table },
+	      _react2.default.createElement(
+	        'div',
+	        { className: _performance2.default.tight },
+	        _react2.default.createElement(
+	          'div',
+	          { className: _performance2.default.performanceHigh },
+	          sparkMax
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: _performance2.default.performanceLow },
+	          sparkMin
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: _performance2.default.padded },
+	        _react2.default.createElement(
+	          'div',
+	          { className: _performance2.default.sparkline },
+	          _react2.default.createElement(
+	            _reactSparklines.Sparklines,
+	            { data: sparkAverages, limit: 30, width: 175, height: 25, margin: 5 },
+	            _react2.default.createElement(_reactSparklines.SparklinesLine, { color: '#98c000', style: { strokeWidth: 1, stroke: "#98c000", fill: "none" } }),
+	            _react2.default.createElement(_reactSparklines.SparklinesSpots, { style: { fill: "#98c000" } })
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: _performance2.default.tightMiddle },
+	        _react2.default.createElement(
+	          'small',
+	          null,
+	          sparkAvg
+	        )
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: _performance2.default.movedown },
+	      _react2.default.createElement(
+	        'a',
+	        { href: '#', className: _performance2.default.btn + ' btn btn-primary', onClick: toggle },
+	        action
+	      )
+	    )
+	  );
+	}
+
+	exports.default = Performance;
+	module.exports = exports['default'];
+
+/***/ },
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(36);
+	var content = __webpack_require__(38);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(38)(content, {"sourceMap":true});
+	var update = __webpack_require__(41)(content, {"sourceMap":true});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!./display.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!./display.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!./performance.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!./performance.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -4466,26 +4686,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 36 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(37)();
+	exports = module.exports = __webpack_require__(39)();
 	// imports
-
+	exports.i(__webpack_require__(40), undefined);
 
 	// module
-	exports.push([module.id, ".display__machinestat___2RsP_ {\n  position: relative;\n}\n\n.display__status___2Sgqg {\n  position: absolute;\n  top: 0;\n  right: 0;\n  font-size: 11.7px;\n}\n\n.display__status___2Sgqg::before {\n  content: '';\n  display: inline-block;\n  width: 10px;\n  height: 10px;\n  background: #333333;\n  border-radius: 100%;\n  vertical-align: -1px;\n  margin-right: 2px;\n}\n\n.display__running___1r2Pq {\n  color: #98c000;\n}\n\n.display__running___1r2Pq::before {\n  background: #98c000;\n}\n\n.display__statRow___via8B {\n  *zoom: 1;\n}\n\n.display__statRow___via8B::before, .display__statRow___via8B::after {\n  display: table;\n  line-height: 0;\n  content: \"\";\n}\n\n.display__statRow___via8B::after {\n  clear: both;\n}\n", ""]);
+	exports.push([module.id, ".performance__label___3gC23 {\n}\n\n.performance__performance___3EU5p {\n  float: left;\n  width: 35%;\n  padding-right: 12px;\n}\n\n.performance__performanceHigh___2CJcU, .performance__performanceLow___1hw9q {\n  font-size: 11.7px;\n  color: #cccccc;\n  line-height: 1;\n  text-align: right;\n}\n\n.performance__performanceLow___1hw9q {\n  margin-top: 9px;\n}\n\n.performance__btn___2D6TY { padding: 1px 28px; border: none; }\n\n.performance__sparkline___2A0MF {\n  width: 100%;\n  height: 32px;\n}\n\n.performance__sparkline___2A0MF svg {\n  width: 100%;\n}\n\n.performance__table___favRg {\n  display: table;\n  width: 100%;\n}\n\n.performance__cell___2_P7p {\n  display: table-cell;\n  vertical-align: top;\n}\n\n.performance__cell___2_P7p .performance__cellTight___1k6N6 {\n  width: 1%;\n  white-space: nowrap;\n}\n\n.performance__cell___2_P7p .performance__cellPadded___1OwUl {\n  padding: 0 3px;\n}\n\n.performance__cell___2_P7p .performance__cellMiddle___25v3z {\n  vertical-align: middle;\n}\n\n.performance__padded___G8tJH {\n}\n\n.performance__middle___1Z4NF {\n}\n\n.performance__tight___3bSwP {\n}\n\n.performance__tightMiddle___2Now0 {\n}\n\n.performance__btn___2D6TY { padding: 1px 28px; border: none; }\n\n.performance__movedown___GG1fp {\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"machinestat": "display__machinestat___2RsP_",
-		"status": "display__status___2Sgqg",
-		"running": "display__running___1r2Pq display__status___2Sgqg",
-		"statRow": "display__statRow___via8B"
+		"label": "performance__label___3gC23 " + __webpack_require__(40).locals["label"] + "",
+		"performance": "performance__performance___3EU5p",
+		"performanceHigh": "performance__performanceHigh___2CJcU",
+		"performanceLow": "performance__performanceLow___1hw9q",
+		"btn": "performance__btn___2D6TY",
+		"sparkline": "performance__sparkline___2A0MF",
+		"table": "performance__table___favRg",
+		"cell": "performance__cell___2_P7p",
+		"cellTight": "performance__cellTight___1k6N6",
+		"cellPadded": "performance__cellPadded___1OwUl",
+		"cellMiddle": "performance__cellMiddle___25v3z",
+		"padded": "performance__padded___G8tJH performance__cell___2_P7p performance__cellPadded___1OwUl",
+		"middle": "performance__middle___1Z4NF performance__cell___2_P7p performance__cellMiddle___25v3z",
+		"tight": "performance__tight___3bSwP performance__cell___2_P7p performance__cellTight___1k6N6",
+		"tightMiddle": "performance__tightMiddle___2Now0 performance__tight___3bSwP performance__cell___2_P7p performance__cellTight___1k6N6 performance__cellMiddle___25v3z",
+		"movedown": "performance__movedown___GG1fp " + __webpack_require__(40).locals["movedown"] + ""
 	};
 
 /***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports) {
 
 	/*
@@ -4541,7 +4773,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 38 */
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(39)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".shared__label___RImHj { font-size: 11.7px; line-height: 1; margin: 12px 0 4px; }\n.shared__movedown___eN67P { margin-top: 12px; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"label": "shared__label___RImHj",
+		"movedown": "shared__movedown___eN67P"
+	};
+
+/***/ },
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -4793,179 +5042,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 39 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _performance = __webpack_require__(40);
-
-	var _performance2 = _interopRequireDefault(_performance);
-
-	var _reactSparklines = __webpack_require__(43);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function Performance(props) {
-	  var toggle = props.toggle;
-	  var sparkAverages = props.sparkAverages;
-	  var status = props.status;
-
-
-	  var sparkMax = sparkAverages.length > 1 ? Math.ceil(Math.max.apply(null, sparkAverages)) : '';
-	  var sparkMin = sparkAverages.length > 1 ? Math.round(Math.min.apply(null, sparkAverages)) : '';
-	  var sparkAvg = Math.round(sparkAverages[sparkAverages.length - 1] * 10) / 10 || 0;
-
-	  var action = status.running ? 'Stop' : 'Start';
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: _performance2.default.performance },
-	    _react2.default.createElement(
-	      'div',
-	      { className: _performance2.default.label },
-	      'Average per minute'
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: _performance2.default.table },
-	      _react2.default.createElement(
-	        'div',
-	        { className: _performance2.default.tight },
-	        _react2.default.createElement(
-	          'div',
-	          { className: _performance2.default.performanceHigh },
-	          sparkMax
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: _performance2.default.performanceLow },
-	          sparkMin
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: _performance2.default.padded },
-	        _react2.default.createElement(
-	          'div',
-	          { className: _performance2.default.sparkline },
-	          _react2.default.createElement(
-	            _reactSparklines.Sparklines,
-	            { data: sparkAverages, limit: 30, width: 175, height: 25, margin: 5 },
-	            _react2.default.createElement(_reactSparklines.SparklinesLine, { color: '#98c000', style: { strokeWidth: 1, stroke: "#98c000", fill: "none" } }),
-	            _react2.default.createElement(_reactSparklines.SparklinesSpots, { style: { fill: "#98c000" } })
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: _performance2.default.tightMiddle },
-	        _react2.default.createElement(
-	          'small',
-	          null,
-	          sparkAvg
-	        )
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: _performance2.default.movedown },
-	      _react2.default.createElement(
-	        'a',
-	        { href: '#', className: _performance2.default.btn + ' btn btn-primary', onClick: toggle },
-	        action
-	      )
-	    )
-	  );
-	};
-
-	exports.default = Performance;
-	module.exports = exports['default'];
-
-/***/ },
-/* 40 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(41);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(38)(content, {"sourceMap":true});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!./performance.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!./performance.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 41 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(37)();
-	// imports
-	exports.i(__webpack_require__(42), undefined);
-
-	// module
-	exports.push([module.id, ".performance__label___3gC23 {\n}\n\n.performance__performance___3EU5p {\n  float: left;\n  width: 35%;\n  padding-right: 12px;\n}\n\n.performance__performanceHigh___2CJcU, .performance__performanceLow___1hw9q {\n  font-size: 11.7px;\n  color: #cccccc;\n  line-height: 1;\n  text-align: right;\n}\n\n.performance__performanceLow___1hw9q {\n  margin-top: 9px;\n}\n\n.performance__btn___2D6TY { padding: 1px 28px; border: none; }\n\n.performance__sparkline___2A0MF {\n  width: 100%;\n  height: 32px;\n}\n\n.performance__sparkline___2A0MF svg {\n  width: 100%;\n}\n\n.performance__table___favRg {\n  display: table;\n  width: 100%;\n}\n\n.performance__cell___2_P7p {\n  display: table-cell;\n  vertical-align: top;\n}\n\n.performance__cell___2_P7p .performance__cellTight___1k6N6 {\n  width: 1%;\n  white-space: nowrap;\n}\n\n.performance__cell___2_P7p .performance__cellPadded___1OwUl {\n  padding: 0 3px;\n}\n\n.performance__cell___2_P7p .performance__cellMiddle___25v3z {\n  vertical-align: middle;\n}\n\n.performance__padded___G8tJH {\n}\n\n.performance__middle___1Z4NF {\n}\n\n.performance__tight___3bSwP {\n}\n\n.performance__tightMiddle___2Now0 {\n}\n\n.performance__btn___2D6TY { padding: 1px 28px; border: none; }\n\n.performance__movedown___GG1fp {\n}\n", ""]);
-
-	// exports
-	exports.locals = {
-		"label": "performance__label___3gC23 " + __webpack_require__(42).locals["label"] + "",
-		"performance": "performance__performance___3EU5p",
-		"performanceHigh": "performance__performanceHigh___2CJcU",
-		"performanceLow": "performance__performanceLow___1hw9q",
-		"btn": "performance__btn___2D6TY",
-		"sparkline": "performance__sparkline___2A0MF",
-		"table": "performance__table___favRg",
-		"cell": "performance__cell___2_P7p",
-		"cellTight": "performance__cellTight___1k6N6",
-		"cellPadded": "performance__cellPadded___1OwUl",
-		"cellMiddle": "performance__cellMiddle___25v3z",
-		"padded": "performance__padded___G8tJH performance__cell___2_P7p performance__cellPadded___1OwUl",
-		"middle": "performance__middle___1Z4NF performance__cell___2_P7p performance__cellMiddle___25v3z",
-		"tight": "performance__tight___3bSwP performance__cell___2_P7p performance__cellTight___1k6N6",
-		"tightMiddle": "performance__tightMiddle___2Now0 performance__tight___3bSwP performance__cell___2_P7p performance__cellTight___1k6N6 performance__cellMiddle___25v3z",
-		"movedown": "performance__movedown___GG1fp " + __webpack_require__(42).locals["movedown"] + ""
-	};
-
-/***/ },
 /* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(37)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".shared__label___RImHj { font-size: 11.7px; line-height: 1; margin: 12px 0 4px; }\n.shared__movedown___eN67P { margin-top: 12px; }\n", ""]);
-
-	// exports
-	exports.locals = {
-		"label": "shared__label___RImHj",
-		"movedown": "shared__movedown___eN67P"
-	};
-
-/***/ },
-/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -6041,7 +6118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	;
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6054,7 +6131,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _progress = __webpack_require__(45);
+	var _progress = __webpack_require__(44);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -6066,11 +6143,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	}
 
-	function Progress(props) {
-	  var status = props.status;
-	  var processedPercent = props.processedPercent;
-	  var processedVals = props.processedVals;
-	  var sparkAverages = props.sparkAverages;
+	function Progress(_ref) {
+	  var state = _ref.state;
+	  var status = state.status;
+	  var processedPercent = state.processedPercent;
+	  var processedVals = state.processedVals;
+	  var sparkAverages = state.sparkAverages;
 
 
 	  var errAvg = 0;
@@ -6158,22 +6236,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	      )
 	    )
 	  );
-	};
+	}
 
 	exports.default = Progress;
 	module.exports = exports['default'];
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(46);
+	var content = __webpack_require__(45);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(38)(content, {"sourceMap":true});
+	var update = __webpack_require__(41)(content, {"sourceMap":true});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -6190,12 +6268,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(37)();
+	exports = module.exports = __webpack_require__(39)();
 	// imports
-	exports.i(__webpack_require__(42), undefined);
+	exports.i(__webpack_require__(40), undefined);
 
 	// module
 	exports.push([module.id, ".progress__root___edNUS {\n  float: left;\n  width: 65%;\n  padding-left: 12px;\n  text-align: right;\n}\n\n.progress__progress___C4L2X {\n  position: relative;\n}\n\n.progress__key___1Tajm {\n  display: block;\n  zoom: 1;\n}\n\n.progress__key___1Tajm::before, .progress__key___1Tajm::after {\n  display: table;\n  line-height: 0;\n  content: \"\";\n}\n\n.progress__key___1Tajm::after {\n  clear: both;\n}\n\n.progress__key___1Tajm ul {\n  display: block;\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n  float: right;\n}\n\n.progress__key___1Tajm li {\n  float: left;\n  margin-left: 12px;\n}\n\n.progress__key___1Tajm li[class*=\"key\"]::before {\n  content: '';\n  display: inline-block;\n  width: 11px;\n  height: 11px;\n  margin-right: 4px;\n  vertical-align: -1px;\n}\n\nli .progress__keyQueued___2iNk3::before { background: #e7e7e7; }\nli .progress__keyProcessed___2dimP::before { background: #98c000; }\nli .progress__keyAverage___20s55::before { background: #fbc000; }\n\n\n.progress__graph___1A1Id {\n  position: relative;\n  width: 100%;\n  height: 32px;\n  background: #e7e7e7;\n}\n\n.progress__graph___1A1Id .progress__processed___2zwFQ {\n  height: 32px;\n  width: 0;\n  background: #98c000;\n}\n\n.progress__average___23VdY {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 2px;\n  background: #fbc000;\n}\n\n.progress__labelQueued___32pDw, .progress__labelProcessed___2-_cf {\n  opacity: 0.5;\n  font-size: 11.7px;\n  line-height: 1;\n}\n\n.progress__labelProcessed___2-_cf {\n  position: absolute;\n  left: 4px;\n  bottom: 4px;\n}\n\n.progress__labelQueued___32pDw {\n  position: absolute;\n  right: 4px;\n  bottom: 4px;\n}\n\n.progress__indent___18fXs { margin-left: 12px; }\n\n.progress__meta___36h2l { font-size: 11.7px; font-style: italic; color: #cccccc; }\n\n.progress__movedown___2wXZZ {\n}\n", ""]);
@@ -6204,7 +6282,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.locals = {
 		"root": "progress__root___edNUS",
 		"progress": "progress__progress___C4L2X",
-		"key": "progress__key___1Tajm " + __webpack_require__(42).locals["label"] + "",
+		"key": "progress__key___1Tajm " + __webpack_require__(40).locals["label"] + "",
 		"keyQueued": "progress__keyQueued___2iNk3",
 		"keyProcessed": "progress__keyProcessed___2dimP",
 		"keyAverage": "progress__keyAverage___20s55",
@@ -6215,8 +6293,157 @@ return /******/ (function(modules) { // webpackBootstrap
 		"labelProcessed": "progress__labelProcessed___2-_cf",
 		"indent": "progress__indent___18fXs",
 		"meta": "progress__meta___36h2l",
-		"movedown": "progress__movedown___2wXZZ " + __webpack_require__(42).locals["movedown"] + ""
+		"movedown": "progress__movedown___2wXZZ " + __webpack_require__(40).locals["movedown"] + ""
 	};
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	exports.default = connect;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _autobindDecorator = __webpack_require__(35);
+
+	var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
+
+	var _dispatcher = __webpack_require__(47);
+
+	var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
+
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
+
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
+
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+
+	  return desc;
+	}
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	function connect(action) {
+	  var initialState = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  var onStateUpdated = arguments.length <= 2 || arguments[2] === undefined ? function (state) {
+	    return state;
+	  } : arguments[2];
+
+
+	  function processState(state) {
+	    /* eslint-disable no-unused-vars */
+	    // treat state as the place to hold changing state for the module. then
+	    // comm and cell can be accessed separately, and preferably from inside
+	    // this module only.
+	    var comm = state.comm;
+	    var cell = state.cell;
+	    var module = state.module;
+
+	    var rest = _objectWithoutProperties(state, ['comm', 'cell', 'module']);
+
+	    return onStateUpdated(rest);
+	  }
+
+	  return function (Component) {
+	    var _desc, _value, _class;
+
+	    return _class = function (_React$Component) {
+	      _inherits(Connect, _React$Component);
+
+	      function Connect(props) {
+	        _classCallCheck(this, Connect);
+
+	        var _this = _possibleConstructorReturn(this, (Connect.__proto__ || Object.getPrototypeOf(Connect)).call(this, props));
+
+	        _this.state = processState(_extends({}, initialState, props));
+	        return _this;
+	      }
+
+	      _createClass(Connect, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	          var _this2 = this;
+
+	          _dispatcher2.default.register(function (payload) {
+	            if (_this2.props && _this2.props.comm && _this2.props.comm.comm_id === payload.commId && payload.actionType === action) {
+	              _this2.updateState(payload.data);
+	            }
+	          });
+	        }
+	      }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(newProps) {
+	          this.updateState(newProps);
+	        }
+	      }, {
+	        key: 'updateState',
+	        value: function updateState(state) {
+	          this.setState(processState(state));
+	        }
+	      }, {
+	        key: 'send',
+	        value: function send(data) {
+	          var _this3 = this;
+
+	          this.props.comm.send(data, function () {
+	            return _this3.props.cell ? _this3.props.cell.get_callbacks() : {};
+	          });
+	        }
+	      }, {
+	        key: 'render',
+	        value: function render() {
+	          return _react2.default.createElement(Component, {
+	            state: this.state,
+	            send: this.send
+	          });
+	        }
+	      }]);
+
+	      return Connect;
+	    }(_react2.default.Component), (_applyDecoratedDescriptor(_class.prototype, 'updateState', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'updateState'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'send', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'send'), _class.prototype)), _class;
+	  };
+	}
+	module.exports = exports['default'];
 
 /***/ },
 /* 47 */
@@ -6543,105 +6770,48 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 51 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * @copyright 2015, Andrey Popp <8mayday@gmail.com>
-	 *
-	 * The decorator may be used on classes or methods
-	 * ```
-	 * @autobind
-	 * class FullBound {}
-	 *
-	 * class PartBound {
-	 *   @autobind
-	 *   method () {}
-	 * }
-	 * ```
-	 */
-	'use strict';
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = autobind;
-
-	function autobind() {
-	  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	    args[_key] = arguments[_key];
-	  }
-
-	  if (args.length === 1) {
-	    return boundClass.apply(undefined, args);
-	  } else {
-	    return boundMethod.apply(undefined, args);
-	  }
+	// load the styles
+	var content = __webpack_require__(52);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(41)(content, {"sourceMap":true});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!./display.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!./display.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
 	}
 
-	/**
-	 * Use boundMethod to bind all methods on the target.prototype
-	 */
-	function boundClass(target) {
-	  // (Using reflect to get all keys including symbols)
-	  var keys = undefined;
-	  // Use Reflect if exists
-	  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
-	    keys = Reflect.ownKeys(target.prototype);
-	  } else {
-	    keys = Object.getOwnPropertyNames(target.prototype);
-	    // use symbols if support is provided
-	    if (typeof Object.getOwnPropertySymbols === 'function') {
-	      keys = keys.concat(Object.getOwnPropertySymbols(target.prototype));
-	    }
-	  }
+/***/ },
+/* 52 */
+/***/ function(module, exports, __webpack_require__) {
 
-	  keys.forEach(function (key) {
-	    // Ignore special case target method
-	    if (key === 'constructor') {
-	      return;
-	    }
+	exports = module.exports = __webpack_require__(39)();
+	// imports
 
-	    var descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
 
-	    // Only methods need binding
-	    if (typeof descriptor.value === 'function') {
-	      Object.defineProperty(target.prototype, key, boundMethod(target, key, descriptor));
-	    }
-	  });
-	  return target;
-	}
+	// module
+	exports.push([module.id, ".display__machinestat___2RsP_ {\n  position: relative;\n}\n\n.display__status___2Sgqg {\n  position: absolute;\n  top: 0;\n  right: 0;\n  font-size: 11.7px;\n}\n\n.display__status___2Sgqg::before {\n  content: '';\n  display: inline-block;\n  width: 10px;\n  height: 10px;\n  background: #333333;\n  border-radius: 100%;\n  vertical-align: -1px;\n  margin-right: 2px;\n}\n\n.display__running___1r2Pq {\n  color: #98c000;\n}\n\n.display__running___1r2Pq::before {\n  background: #98c000;\n}\n\n.display__statRow___via8B {\n  *zoom: 1;\n}\n\n.display__statRow___via8B::before, .display__statRow___via8B::after {\n  display: table;\n  line-height: 0;\n  content: \"\";\n}\n\n.display__statRow___via8B::after {\n  clear: both;\n}\n", ""]);
 
-	/**
-	 * Return a descriptor removing the value and returning a getter
-	 * The getter will return a .bind version of the function
-	 * and memoize the result against a symbol on the instance
-	 */
-	function boundMethod(target, key, descriptor) {
-	  var fn = descriptor.value;
-
-	  if (typeof fn !== 'function') {
-	    throw new Error('@autobind decorator can only be applied to methods not: ' + typeof fn);
-	  }
-
-	  return {
-	    configurable: true,
-	    get: function get() {
-	      if (this === target.prototype || this.hasOwnProperty(key)) {
-	        return fn;
-	      }
-
-	      var boundFn = fn.bind(this);
-	      Object.defineProperty(this, key, {
-	        value: boundFn,
-	        configurable: true,
-	        writable: true
-	      });
-	      return boundFn;
-	    }
-	  };
-	}
-	module.exports = exports['default'];
-
+	// exports
+	exports.locals = {
+		"machinestat": "display__machinestat___2RsP_",
+		"status": "display__status___2Sgqg",
+		"running": "display__running___1r2Pq display__status___2Sgqg",
+		"statRow": "display__statRow___via8B"
+	};
 
 /***/ }
 /******/ ])
