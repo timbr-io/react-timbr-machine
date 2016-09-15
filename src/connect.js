@@ -19,16 +19,18 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
     class Connect extends React.Component {
 
       constructor( props ) {
+        /* eslint-disable no-unused-vars */
         super( props );
         this.state = processState( { ...initialState, ...props } );
+        this.dispatchHandler = null;
       }
 
       componentWillMount() {
-        dispatcher.register( payload => {
-          if ( this.props && this.props.comm && this.props.comm.comm_id === payload.commId && payload.actionType === action ) {
-            this.updateState( payload.data );
-          }
-        });
+        this.dispatchHandler = dispatcher.register( this.onDispatchReceived );
+      }
+
+      componentWillUnmount() {
+        dispatcher.unregister( this.dispatchHandler );
       }
 
       componentWillReceiveProps( newProps ) {
@@ -41,7 +43,18 @@ export default function connect( action, initialState = {}, onStateUpdated = sta
       }
 
       @autobind
+      onDispatchReceived( payload ) {
+        /* eslint-disable no-console */
+        console.log( 'RECEIVE', payload );
+        if ( this.props && this.props.comm && this.props.comm.comm_id === payload.commId && payload.actionType === action ) {
+          this.updateState( payload.data );
+        }
+      }
+
+      @autobind
       send( data ) {
+        /* eslint-disable no-console */
+        console.log( 'SEND', data );
         this.props.comm.send( data, () =>
           this.props.cell
             ? this.props.cell.get_callbacks()
