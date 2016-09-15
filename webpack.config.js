@@ -23,10 +23,15 @@ module.exports = [{
       loaders: [`babel?${JSON.stringify( babelSettings )}`]
     }, { 
       test: /\.css$/, 
-      loader: "style-loader?sourceMap!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]" 
+      loader: 'style-loader!css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]&importLoaders=1!postcss-loader' 
     }, {
       test: /\.(woff|woff2|eot|ttf|svg)$/,
       loader: 'url-loader?name=fonts/[name].build-[hash].[ext]&limit=10000'
     }]
+  },
+  postcss: function() {
+    return [
+      require( 'postcss-nested' )
+    ];
   }
 }];

@@ -2,30 +2,23 @@
 import React from 'react';
 import connect from '../connect';
 import Steps from './steps';
-import './index.css';
+
+import '../css/fonts.css';
 
 export type tSource = [ string, { name: string } ];
 export type tFunctions = Array<[ string, { name: string } ]>;
 
 type tConfig = {
-  functions: ?tFunctions,
-  init:      ?string,
-  source:    ?tSource
+  functions: tFunctions,
+  init:      string,
+  source:    tSource
 };
 
 type tState = {
   config: tConfig
 };
 
-const initialState: tState = {
-  config: {
-    functions: null,
-    init:      null,
-    source:    null
-  }
-};
-
-@connect( 'dashboard_update', initialState )
+@connect( 'dashboard_update' )
 export default class Dashboard extends React.Component {
 
   props: {
@@ -38,6 +31,7 @@ export default class Dashboard extends React.Component {
     return (
       <div>
         <Steps
+          send      = { this.props.send }
           source    = { source }
           functions = { functions }
         />

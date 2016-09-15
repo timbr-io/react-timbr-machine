@@ -1,12 +1,12 @@
-.actions {
+.root {
+  position: relative;
+  border-top: 1px solid #efefef;
+}
+
+.buttons {
   position: absolute;
   top: 0;
   right: 0;
-}
-
-.lockedStep {
-  position: relative;
-  border-top: 1px solid #efefef;
 }
 
 .label {
@@ -18,11 +18,7 @@
 }
 
 .captureButton {
-  font-family: 'twola';
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
+  composes: twolicon from '../../css/fonts.css';
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -37,8 +33,8 @@
   padding: 3px 0 0;
   text-align: center;
   border-radius: 100%;
-}
 
-.captureButton::before {
-  content: "\53";
+  &::before {
+    content: "\53";
+  }
 }

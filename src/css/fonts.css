@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "twola";
+  src:url("./fonts/twola.eot");
+  src:url("./fonts/twola.eot?#iefix") format("embedded-opentype"),
+    url("./fonts/twola.woff") format("woff"),
+    url("./fonts/twola.ttf") format("truetype"),
+    url("./fonts/twola.svg#twola") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.twolicon {
+  font-family: 'twola';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}

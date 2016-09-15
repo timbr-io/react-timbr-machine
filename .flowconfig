@@ -8,6 +8,7 @@
 .*/node_modules/oboe/test/.*
 .*/node_modules/react/.*
 .*/node_modules/react-tools/.*
+.*/node_modules/systemjs-builder/.*
 .*/reqwest/.*
 .*/react/node_modules/.*
 .*/npmconf/test/fixtures/package.json
