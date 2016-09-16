@@ -18,9 +18,6 @@
 }
 
 .captureButton {
-  composes: twolicon from '../../css/fonts.css';
   composes: buttonRoundPrimary from '../../css/buttons.css';
-  &::before {
-    content: "\53";
-  }
+  composes: captureIcon from '../../css/icons.css';
 }

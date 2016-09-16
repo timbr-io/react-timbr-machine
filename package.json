@@ -21,6 +21,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "autoprefixer": "^6.4.1",
     "babel-eslint": "^6.1.2",
     "css-loader": "^0.23.1",
     "eslint": "^3.5.0",

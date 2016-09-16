@@ -33,7 +33,8 @@ module.exports = [{
   postcss: function() {
     return [
       require( 'postcss-modules-values' ),
-      require( 'postcss-nested' )
+      require( 'postcss-nested' ),
+      require( 'autoprefixer' )
     ];
   }
 }];

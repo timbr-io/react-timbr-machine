@@ -1,0 +1,14 @@
+.twolicon {
+  font-family: 'twola';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.captureIcon {
+  composes: twolicon;
+  &::before {
+    content: "\53";
+  }
+}
