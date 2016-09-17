@@ -28,7 +28,6 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-
     const {
       state: {
         config: { init, source, functions } = {}
