@@ -17,19 +17,23 @@ module.exports = [{
     libraryTarget: 'umd'
   },
   module : {
+    preLoaders: [{
+      test: /\.js$/,
+      loader: 'source-map-loader'
+    }],
     loaders : [{
       test: /\.js?$/,
       exclude: /(node_modules|bower_components)/,
       loaders: [`babel?${JSON.stringify( babelSettings )}`]
     }, { 
       test: /\.css$/, 
-      loader: 'style-loader!css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]&importLoaders=1!postcss-loader' 
+      loader: 'style-loader!css-loader?modules&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]&importLoaders=1!postcss-loader?sourceMap' 
     }, {
       test: /\.(woff|woff2|eot|ttf|svg)$/,
       loader: 'url-loader?name=fonts/[name].build-[hash].[ext]&limit=10000'
     }]
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'eval-source-map',
   postcss: function() {
     return [
       require( 'postcss-modules-values' ),
