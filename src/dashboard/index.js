@@ -30,12 +30,9 @@ export default class Dashboard extends React.Component {
   render() {
     const {
       state: {
-        config: { init, source, functions } = {}
+        config: { source, functions } = {}
       } = {}
     } = this.props;
-
-    //const [ projectId ] = init ? init.split( '/' ).slice( -2 ) : [];
-    const projectId = '57d9f3ded13d92ba32919be7';
 
     return (
       <div>
@@ -46,7 +43,6 @@ export default class Dashboard extends React.Component {
         />
         <Snapshots
           send = { this.props.send }
-          projectId = { projectId }
         />
       </div>
     );
